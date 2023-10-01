@@ -1,0 +1,570 @@
+[gd_scene load_steps=25 format=2]
+
+[ext_resource path="res://GameAssets/320x320 white.png" type="Texture" id=1]
+[ext_resource path="res://GameObjects/Player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://GameAssets/Music/high-velocity chiptune.wav" type="AudioStream" id=3]
+[ext_resource path="res://Scripts/GameManager.gd" type="Script" id=4]
+[ext_resource path="res://GameAssets/white.PNG" type="Texture" id=5]
+[ext_resource path="res://GameAssets/Fonts/Roboto/Roboto-Regular.ttf" type="DynamicFontData" id=6]
+[ext_resource path="res://GameAssets/Themes/ButtonTheme.tres" type="Theme" id=7]
+[ext_resource path="res://Scripts/In-Game UI.gd" type="Script" id=8]
+[ext_resource path="res://GameAssets/Heart.png" type="Texture" id=9]
+[ext_resource path="res://Scripts/Tutorial.gd" type="Script" id=10]
+
+[sub_resource type="DynamicFont" id=5]
+size = 40
+font_data = ExtResource( 6 )
+
+[sub_resource type="Theme" id=6]
+default_font = SubResource( 5 )
+
+[sub_resource type="DynamicFont" id=9]
+size = 30
+font_data = ExtResource( 6 )
+
+[sub_resource type="Theme" id=10]
+default_font = SubResource( 9 )
+
+[sub_resource type="DynamicFont" id=7]
+size = 50
+font_data = ExtResource( 6 )
+
+[sub_resource type="Theme" id=8]
+default_font = SubResource( 7 )
+
+[sub_resource type="DynamicFont" id=11]
+size = 40
+font_data = ExtResource( 6 )
+
+[sub_resource type="Theme" id=12]
+default_font = SubResource( 11 )
+
+[sub_resource type="Animation" id=13]
+resource_name = "FadeIn1"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("In-Game UI/GameStatus/Tutorial/FirstSentence:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=14]
+resource_name = "FadeIn2"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("In-Game UI/GameStatus/Tutorial/SecondSentence:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=15]
+resource_name = "FadeOut"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("In-Game UI/GameStatus/Tutorial/FirstSentence:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("In-Game UI/GameStatus/Tutorial/SecondSentence:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="Animation" id=16]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("In-Game UI/GameStatus/Tutorial/FirstSentence:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("In-Game UI/GameStatus/Tutorial/SecondSentence:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="Environment" id=2]
+tonemap_mode = 1
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 10.5013, 966.5 )
+
+[node name="GameManager" type="Node2D" groups=["gamemanager"]]
+script = ExtResource( 4 )
+
+[node name="Background" type="Sprite" parent="."]
+modulate = Color( 0.117647, 0.101961, 0.101961, 1 )
+scale = Vector2( 10, 10 )
+z_index = -999
+texture = ExtResource( 1 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+current = true
+
+[node name="Player" parent="." instance=ExtResource( 2 )]
+position = Vector2( -420, 46 )
+collision_mask = 13
+
+[node name="In-Game UI" type="CanvasLayer" parent="." groups=["ui"]]
+pause_mode = 2
+script = ExtResource( 8 )
+
+[node name="GameOver" type="Control" parent="In-Game UI"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="ColorRect" type="ColorRect" parent="In-Game UI/GameOver"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 0.262745 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="In-Game UI/GameOver"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -135.0
+margin_top = -116.0
+margin_right = 115.0
+margin_bottom = 27.0
+theme = ExtResource( 7 )
+custom_constants/separation = 20
+
+[node name="RestartButton" type="Button" parent="In-Game UI/GameOver/VBoxContainer"]
+margin_right = 250.0
+margin_bottom = 61.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Restart"
+
+[node name="QuitToMenuButton" type="Button" parent="In-Game UI/GameOver/VBoxContainer"]
+margin_top = 81.0
+margin_right = 250.0
+margin_bottom = 143.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Quit To Menu"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="In-Game UI/GameOver"]
+margin_left = 828.0
+margin_top = 180.0
+margin_right = 1115.0
+margin_bottom = 424.0
+custom_constants/separation = 25
+
+[node name="Label" type="Label" parent="In-Game UI/GameOver/VBoxContainer2"]
+margin_right = 287.0
+margin_bottom = 48.0
+theme = SubResource( 6 )
+text = "GAME OVER!"
+
+[node name="ScoreLabel" type="Label" parent="In-Game UI/GameOver/VBoxContainer2"]
+margin_top = 73.0
+margin_right = 287.0
+margin_bottom = 121.0
+theme = SubResource( 6 )
+text = "Score: N/A"
+
+[node name="HighScoreLabel" type="Label" parent="In-Game UI/GameOver/VBoxContainer2"]
+margin_top = 146.0
+margin_right = 287.0
+margin_bottom = 194.0
+theme = SubResource( 6 )
+text = "High Score: N/A"
+
+[node name="PrevHighScoreControl" type="Control" parent="In-Game UI/GameOver"]
+visible = false
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="Label" type="Label" parent="In-Game UI/GameOver/PrevHighScoreControl"]
+margin_left = 1301.0
+margin_top = 182.0
+margin_right = 1522.0
+margin_bottom = 218.0
+rect_rotation = 25.0998
+theme = SubResource( 10 )
+text = "New High Score!"
+
+[node name="PreviousHighScoreLabel" type="Label" parent="In-Game UI/GameOver/PrevHighScoreControl"]
+margin_left = 1222.0
+margin_top = 221.0
+margin_right = 1558.0
+margin_bottom = 269.0
+rect_rotation = 25.0998
+theme = SubResource( 10 )
+text = "Previous High Score: N/A"
+
+[node name="PauseMenu" type="Control" parent="In-Game UI"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="ColorRect" type="ColorRect" parent="In-Game UI/PauseMenu"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 0.262745 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="In-Game UI/PauseMenu"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -132.0
+margin_top = -112.0
+margin_right = 118.0
+margin_bottom = 102.0
+theme = ExtResource( 7 )
+custom_constants/separation = 20
+
+[node name="ResumeButton" type="Button" parent="In-Game UI/PauseMenu/VBoxContainer"]
+margin_right = 250.0
+margin_bottom = 58.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Resume"
+
+[node name="RestartButton2" type="Button" parent="In-Game UI/PauseMenu/VBoxContainer"]
+margin_top = 78.0
+margin_right = 250.0
+margin_bottom = 136.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Restart"
+
+[node name="QuitToMenuButton" type="Button" parent="In-Game UI/PauseMenu/VBoxContainer"]
+margin_top = 156.0
+margin_right = 250.0
+margin_bottom = 214.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Quit To Menu"
+
+[node name="Label" type="Label" parent="In-Game UI/PauseMenu"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -135.0
+margin_top = 292.0
+margin_right = 114.0
+margin_bottom = 356.0
+theme = SubResource( 6 )
+text = "Game Paused"
+
+[node name="GameStatus" type="Control" parent="In-Game UI"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="In-Game UI/GameStatus"]
+margin_left = 24.0
+margin_top = 7.0
+margin_right = 440.0
+margin_bottom = 87.0
+
+[node name="Heart1" type="TextureRect" parent="In-Game UI/GameStatus/HBoxContainer"]
+margin_right = 80.0
+margin_bottom = 80.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource( 9 )
+
+[node name="Heart2" type="TextureRect" parent="In-Game UI/GameStatus/HBoxContainer"]
+margin_left = 84.0
+margin_right = 164.0
+margin_bottom = 80.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource( 9 )
+
+[node name="Heart3" type="TextureRect" parent="In-Game UI/GameStatus/HBoxContainer"]
+margin_left = 168.0
+margin_right = 248.0
+margin_bottom = 80.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource( 9 )
+
+[node name="Heart4" type="TextureRect" parent="In-Game UI/GameStatus/HBoxContainer"]
+margin_left = 252.0
+margin_right = 332.0
+margin_bottom = 80.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource( 9 )
+
+[node name="Heart5" type="TextureRect" parent="In-Game UI/GameStatus/HBoxContainer"]
+margin_left = 336.0
+margin_right = 416.0
+margin_bottom = 80.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource( 9 )
+
+[node name="ScoreLabel" type="Label" parent="In-Game UI/GameStatus"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -185.0
+margin_right = -17.0
+margin_bottom = 60.0
+theme = SubResource( 8 )
+text = "000000"
+
+[node name="Tween" type="Tween" parent="In-Game UI/GameStatus"]
+
+[node name="Tutorial" type="Control" parent="In-Game UI/GameStatus"]
+visible = false
+margin_right = 40.0
+margin_bottom = 40.0
+script = ExtResource( 10 )
+
+[node name="FirstSentence" type="Control" parent="In-Game UI/GameStatus/Tutorial"]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="Label" type="Label" parent="In-Game UI/GameStatus/Tutorial/FirstSentence"]
+margin_left = 374.0
+margin_top = 152.0
+margin_right = 889.0
+margin_bottom = 200.0
+theme = SubResource( 12 )
+text = "How to play: Avoid your own "
+
+[node name="Label2" type="Label" parent="In-Game UI/GameStatus/Tutorial/FirstSentence"]
+modulate = Color( 0.152941, 0.466667, 0.956863, 1 )
+margin_left = 889.0
+margin_top = 152.0
+margin_right = 980.0
+margin_bottom = 200.0
+theme = SubResource( 12 )
+text = "color"
+
+[node name="SecondSentence" type="Control" parent="In-Game UI/GameStatus/Tutorial"]
+modulate = Color( 1, 1, 1, 0 )
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="Label" type="Label" parent="In-Game UI/GameStatus/Tutorial/SecondSentence"]
+margin_left = 374.0
+margin_top = 268.0
+margin_right = 995.0
+margin_bottom = 316.0
+theme = SubResource( 12 )
+text = "Touch projectiles that are not your "
+
+[node name="Label3" type="Label" parent="In-Game UI/GameStatus/Tutorial/SecondSentence"]
+margin_left = 1095.0
+margin_top = 268.0
+margin_right = 1560.0
+margin_bottom = 316.0
+theme = SubResource( 12 )
+text = "to turn them into missiles!"
+
+[node name="Label2" type="Label" parent="In-Game UI/GameStatus/Tutorial/SecondSentence"]
+modulate = Color( 0.152941, 0.466667, 0.956863, 1 )
+margin_left = 995.0
+margin_top = 268.0
+margin_right = 1086.0
+margin_bottom = 316.0
+theme = SubResource( 12 )
+text = "color"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="In-Game UI/GameStatus/Tutorial"]
+root_node = NodePath("../../../..")
+anims/FadeIn1 = SubResource( 13 )
+anims/FadeIn2 = SubResource( 14 )
+anims/FadeOut = SubResource( 15 )
+anims/RESET = SubResource( 16 )
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 2 )
+
+[node name="TopPositions" type="Node2D" parent="."]
+
+[node name="Position2D" type="Position2D" parent="TopPositions"]
+position = Vector2( 700, -373 )
+
+[node name="Position2D2" type="Position2D" parent="TopPositions"]
+position = Vector2( 0, -411 )
+
+[node name="Position2D3" type="Position2D" parent="TopPositions"]
+position = Vector2( -697, -380 )
+
+[node name="LowerPositions" type="Node2D" parent="."]
+
+[node name="Position2D" type="Position2D" parent="LowerPositions"]
+position = Vector2( -887, 141 )
+
+[node name="Position2D5" type="Position2D" parent="LowerPositions"]
+position = Vector2( -604, 5 )
+
+[node name="Position2D6" type="Position2D" parent="LowerPositions"]
+position = Vector2( 604, 0 )
+
+[node name="Position2D2" type="Position2D" parent="LowerPositions"]
+position = Vector2( -307, -100 )
+
+[node name="Position2D3" type="Position2D" parent="LowerPositions"]
+position = Vector2( 250, -107 )
+
+[node name="Position2D4" type="Position2D" parent="LowerPositions"]
+position = Vector2( 846, 158 )
+
+[node name="Walls" type="Node2D" parent="."]
+
+[node name="wall" type="StaticBody2D" parent="Walls"]
+position = Vector2( -972, -10 )
+collision_layer = 8
+collision_mask = 5
+
+[node name="Sprite" type="Sprite" parent="Walls/wall"]
+visible = false
+position = Vector2( 0, -32 )
+scale = Vector2( 0.25, 18.15 )
+texture = ExtResource( 5 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/wall"]
+position = Vector2( -0.5, -33 )
+shape = SubResource( 1 )
+
+[node name="wall4" type="StaticBody2D" parent="Walls"]
+position = Vector2( 974, -37 )
+collision_layer = 8
+collision_mask = 5
+
+[node name="Sprite" type="Sprite" parent="Walls/wall4"]
+visible = false
+position = Vector2( 0, -32 )
+scale = Vector2( 0.25, 18.15 )
+texture = ExtResource( 5 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/wall4"]
+position = Vector2( -0.5, -33 )
+shape = SubResource( 1 )
+
+[node name="wall2" type="StaticBody2D" parent="Walls"]
+position = Vector2( -203, 552 )
+rotation = -1.57079
+collision_layer = 8
+collision_mask = 5
+
+[node name="Sprite" type="Sprite" parent="Walls/wall2"]
+visible = false
+position = Vector2( -1.49777, 207.729 )
+scale = Vector2( 0.287444, 24.1432 )
+texture = ExtResource( 5 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/wall2"]
+position = Vector2( -0.498718, 205.5 )
+shape = SubResource( 1 )
+
+[node name="wall3" type="StaticBody2D" parent="Walls"]
+position = Vector2( -204, -553 )
+rotation = -1.57079
+collision_layer = 8
+collision_mask = 5
+
+[node name="Sprite" type="Sprite" parent="Walls/wall3"]
+visible = false
+position = Vector2( -1.49777, 207.729 )
+scale = Vector2( 0.287444, 24.1432 )
+texture = ExtResource( 5 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/wall3"]
+position = Vector2( -0.498718, 205.5 )
+shape = SubResource( 1 )
+
+[node name="OuterPositions" type="Node2D" parent="."]
+
+[node name="Position2D" type="Position2D" parent="OuterPositions"]
+position = Vector2( -1191, 309 )
+
+[node name="Position2D5" type="Position2D" parent="OuterPositions"]
+position = Vector2( -1093, -134 )
+
+[node name="Position2D3" type="Position2D" parent="OuterPositions"]
+position = Vector2( -653, -620 )
+
+[node name="Position2D4" type="Position2D" parent="OuterPositions"]
+position = Vector2( 44, -633 )
+
+[node name="Position2D6" type="Position2D" parent="OuterPositions"]
+position = Vector2( 663, -642 )
+
+[node name="Position2D7" type="Position2D" parent="OuterPositions"]
+position = Vector2( 1060, -122 )
+
+[node name="Position2D8" type="Position2D" parent="OuterPositions"]
+position = Vector2( 1150, 147 )
+
+[node name="SpawnWeakEnemyTimer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+
+[node name="SpawnEnemyTimer" type="Timer" parent="."]
+wait_time = 15.0
+one_shot = true
+
+[node name="GameMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 3 )
+volume_db = -5.0
+autoplay = true
+bus = "Background"
+
+[connection signal="mouse_entered" from="In-Game UI/GameOver/VBoxContainer/RestartButton" to="." method="_on_button_mouse_entered"]
+[connection signal="pressed" from="In-Game UI/GameOver/VBoxContainer/RestartButton" to="." method="_on_RestartButton_pressed"]
+[connection signal="mouse_entered" from="In-Game UI/GameOver/VBoxContainer/QuitToMenuButton" to="." method="_on_button_mouse_entered"]
+[connection signal="pressed" from="In-Game UI/GameOver/VBoxContainer/QuitToMenuButton" to="." method="_on_QuitToMenuButton_pressed"]
+[connection signal="mouse_entered" from="In-Game UI/PauseMenu/VBoxContainer/ResumeButton" to="." method="_on_button_mouse_entered"]
+[connection signal="pressed" from="In-Game UI/PauseMenu/VBoxContainer/ResumeButton" to="In-Game UI" method="_on_ResumeButton_pressed"]
+[connection signal="mouse_entered" from="In-Game UI/PauseMenu/VBoxContainer/RestartButton2" to="." method="_on_button_mouse_entered"]
+[connection signal="pressed" from="In-Game UI/PauseMenu/VBoxContainer/RestartButton2" to="." method="_on_RestartButton_pressed"]
+[connection signal="mouse_entered" from="In-Game UI/PauseMenu/VBoxContainer/QuitToMenuButton" to="." method="_on_button_mouse_entered"]
+[connection signal="pressed" from="In-Game UI/PauseMenu/VBoxContainer/QuitToMenuButton" to="." method="_on_QuitToMenuButton_pressed"]
+[connection signal="timeout" from="SpawnWeakEnemyTimer" to="." method="_on_SpawnWeakEnemyTimer_timeout"]
+[connection signal="timeout" from="SpawnEnemyTimer" to="." method="_on_SpawnEnemyTimer_timeout"]
